@@ -1,6 +1,6 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const catbreedsRouter = require('./routes/catbreeds');
+import express from 'express';
+import mongoose from 'mongoose';
+import catbreedsRouter from './routes/catbreeds.js';
 
 const app = express();
 const PORT = 8000;

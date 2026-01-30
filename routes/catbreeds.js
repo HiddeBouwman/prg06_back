@@ -1,7 +1,8 @@
 // some of this is way too complicated for me, got some help from the internet. Haven't used artificial intelligence yet.
-const express = require('express');
+import express from 'express';
+import CatBreed from '../models/CatBreed.js';
+
 const router = express.Router();
-const CatBreed = require('../models/CatBreed');
 
 // Middleware for Accept header, only for methods that return data
 router.use((req, res, next) => {
@@ -125,4 +126,4 @@ router.use('/:id', (req, res) => {
   res.status(405).send();
 });
 
-module.exports = router;
+export default router;

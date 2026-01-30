@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const { faker } = require('@faker-js/faker');
-const CatBreed = require('./models/CatBreed');
+import mongoose from 'mongoose';
+import { faker } from '@faker-js/faker';
+import CatBreed from './models/CatBreed.js';
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/catbreedsdb')

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const catBreedSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -7,4 +7,6 @@ const catBreedSchema = new mongoose.Schema({
   description: String
 });
 
-module.exports = mongoose.model('CatBreed', catBreedSchema);
+const CatBreed = mongoose.model('CatBreed', catBreedSchema);
+
+export default CatBreed;
