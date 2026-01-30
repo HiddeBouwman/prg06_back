@@ -12,11 +12,18 @@ router.use((req, res, next) => {
   next();
 });
 
-// GET /catbreeds (list)
+// GET /catbreeds (list), nu met pagination (maximaal 12 per pagina)
 router.get('/', async (req, res) => {
-  const catbreeds = await CatBreed.find();
-  const baseUrl = `${req.protocol}://${req.get('host')}${req.baseUrl}`; // you already know i had to search this up
-  const items = catbreeds.map(c => ({ // deze moest ik tevoorschijn toveren van programmeren 3 en 4
+  const page = Math.max(1, parseInt(req.query.page) || 1);
+  const limit = req.query.limit ? Math.max(1, parseInt(req.query.limit)) : 12;
+  const total = await CatBreed.countDocuments();
+  let query = CatBreed.find();
+  if (limit) {
+    query = query.skip((page - 1) * limit).limit(limit);
+  }
+  const catbreeds = await query;
+  const baseUrl = `${req.protocol}://${req.get('host')}${req.baseUrl}`; // je weet al dat ik deze op heb gezocht, hier ben ik niet slim genoeg voor
+  const items = catbreeds.map(c => ({
     id: c._id,
     name: c.name,
     origin: c.origin,
@@ -24,12 +31,20 @@ router.get('/', async (req, res) => {
       self: { href: `${baseUrl}/${c._id}` }
     }
   }));
+  const hasNext = limit && (page * limit) < total;
+  const hasPrev = page > 1;
+  const links = {
+    self: { href: `${baseUrl}?page=${page}${limit ? `&limit=${limit}` : ''}` },
+    collection: { href: baseUrl }
+  };
+  if (hasNext) links.next = { href: `${baseUrl}?page=${page + 1}&limit=${limit}` };
+  if (hasPrev) links.prev = { href: `${baseUrl}?page=${page - 1}&limit=${limit}` };
   res.json({
     items,
-    _links: {
-      self: { href: baseUrl },
-      collection: { href: baseUrl }
-    }
+    total,
+    page,
+    limit,
+    _links: links
   });
 });
 
