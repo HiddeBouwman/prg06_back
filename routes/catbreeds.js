@@ -102,7 +102,7 @@ router.delete('/:id', async (req, res) => {
 router.options('/', (req, res) => {
   res.set('Allow', 'GET, POST, OPTIONS');
   res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  res.set('Access-Control-Allow-Headers', 'Content-Type, Accept');
   res.status(204).send();
 });
 
@@ -110,7 +110,7 @@ router.options('/', (req, res) => {
 router.options('/:id', (req, res) => {
   res.set('Allow', 'GET, PUT, DELETE, OPTIONS');
   res.set('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS');
-  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  res.set('Access-Control-Allow-Headers', 'Content-Type, Accept');
   res.status(204).send();
 });
 
